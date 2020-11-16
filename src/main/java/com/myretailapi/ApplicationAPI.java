@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class ApplicationAPI {
     private final static Logger LOGGER = Logger.getLogger(ApplicationAPI.class.getName());
 
+    /* Main method to launch application */
     public static void main(String[] args) {
         LOGGER.info("Starting up com.myretailapi.ApplicationAPI");
         SpringApplication.run(ApplicationAPI.class, args);

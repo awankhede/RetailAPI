@@ -31,7 +31,8 @@ public class RetailService {
     @Autowired
     private RetailDao retailDao;
 
-    public RetailVO getProductDetails(String id) throws Exception{
+    /*  Service Method to get Product Details based on ID provided  */
+    public RetailVO getProductDetails(String id) throws Exception {
         LOGGER.info("Enter RetailService.getProductDetails");
 
         /* Get product name -- rest call*/
@@ -41,24 +42,31 @@ public class RetailService {
         /* Get product price & currency type -- connect to noSQL(mongoDB) */
         CurrentPrice currentPrice = this.getPriceDetails(id);
         if(currentPrice == null || currentPrice.getCurrencyCode() == null || currentPrice.getValue() == null){
+            LOGGER.info("Fail... Exit RetailService.getProductDetails");
             throw new MongoException("No price detail found in DB for id: " + id);
         }
         returnObject.setCurrentPrice(currentPrice);
 
+        /* Return RetailVO Object */
+        LOGGER.info("Exit RetailService.getProductDetails");
         return returnObject;
     }
 
+    /*  Service Method to get Product Description from Rest call  */
     private RetailVO getRetailObjectFromURLResponse(String id) throws Exception {
+        LOGGER.info("Enter RetailService.getRetailObjectFromURLResponse");
+
         ObjectMapper ObjMapper = new ObjectMapper();
         RetailVO retailVO = new RetailVO();
-        CurrentPrice currentPrice = new CurrentPrice();
         JsonNode root1;
         JsonNode root2;
 
+        /* Setup url and perform rest call on URL to target repository */
         String url = URL_FRONT + id + URL_END;
         ResponseEntity<String> responseFromURL = restTemplate.getForEntity(url,String.class);
 
         try{
+            /* Convert restResponse to String & parse through string to find product description */
             String productDetailString = responseFromURL.getBody();
             if(productDetailString != null && !productDetailString.isEmpty()){
                 root1 = ObjMapper.readTree(productDetailString);
@@ -70,41 +78,53 @@ public class RetailService {
                         root1 = root2;
                         root2 = root1.findValue("product_description");
                         if(root2 != null){
-                            retailVO.setName(root2.findValue("title").toString());
+                            /* Replace any special character add-ons that may get transfered from the response */
+                            String productDescription= root2.get("title").asText();
+                            productDescription.replace("[\"]","");
+                            retailVO.setName(productDescription);
                         }
                     }
                 }
             }
         }catch(IOException ex){
-            LOGGER.info("Object parsing failed due to IOException: " + ex.getMessage());
+            /* Fail if any IOException is thrown from parsing through rest response */
+            LOGGER.info("Exit RetailService.getRetailObjectFromURLResponse. Object parsing failed due to IOException: " + ex.getMessage());
             throw ex;
         }
-        retailVO.setCurrentPrice(currentPrice);
+
+        LOGGER.info("Exit RetailService.getRetailObjectFromURLResponse");
         return retailVO;
     }
 
+    /*  Service Method to update Product Details based on ID provided  */
     public Boolean updateProductDetails(RetailVO retailVO){
         LOGGER.info("Enter RetailService.updateProductDetails");
 
+        /* Update currentPrice object to define id to be equal to the id in the retailVO object */
         CurrentPrice newPrice = retailVO.getCurrentPrice();
         newPrice.setId(retailVO.getId());
+
+        /* Call Mongo Database locally defined at myretailDB */
         updatePriceDetails(retailVO.getId(), newPrice);
+
+        LOGGER.info("Exit RetailService.updateProductDetails");
         return true;
     }
 
     /* -----Helper Methods -----*/
 
+    /*  Call to local Mongo DB to retrieve Price details */
     private CurrentPrice getPriceDetails(String id) throws MongoException{
         return retailDao.findById(id);
     }
 
+    /* Call to local Mongo DB to update and Id's Price details if the Id is existing in DB source */
     private void updatePriceDetails(String id, CurrentPrice newPrice) throws MongoException{
         CurrentPrice currentPrice = retailDao.findById(id);
         if(currentPrice != null){
-          //  retailDao.delete(currentPrice);
             retailDao.save(newPrice);
         }else{
-            throw new MongoException("price details for product with id="+id+" not found in mongo db for collection 'productprice'");
+            throw new MongoException("Exit RetailService.UpdatePriceDetails. Price details for product with id="+id+" not found in DB collection");
         }
     }
 

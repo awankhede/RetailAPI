@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.util.logging.Logger;
 
 @RestController
@@ -20,14 +18,17 @@ public class RetailController {
     @Autowired
     private RetailHandler retailHandler;
 
+    /* Basic get call to ensure the service can be pinged on hosted port */
     @RequestMapping(value ="/ping", method = RequestMethod.GET)
     public ResponseEntity ping(){
         LOGGER.info("Enter RetailController.ping");
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @Produces(MediaType.APPLICATION_JSON)
+    /* Get call with parameter {id} to retrieve retail object associated to that id */
+    /* Set to return a JSON object */
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET,
+            produces = "application/json")
     public ResponseEntity<RetailVO> getProductDetails(@PathVariable Integer id) throws Exception{
         LOGGER.info("Enter RetailController.getProductDetails");
         ResponseEntity<RetailVO> returnResponse = retailHandler.getProductDetails(id);
@@ -35,8 +36,11 @@ public class RetailController {
         return returnResponse;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    @Produces(MediaType.APPLICATION_JSON)
+    /* Put call with parameter {id} and JSON object (RetailVO) found in request body to update retail information associated to that id */
+    /* Expecting to consume a JSON object */
+    /* Set to return a JSON object */
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT,
+            consumes = "application/json", produces = "application/json")
     public ResponseEntity<RetailVO> updateProductDetails(@PathVariable Integer id, @RequestBody RetailVO retailVO) throws Exception{
         LOGGER.info("Enter RetailController.updateProductDetails");
         LOGGER.info(retailVO.getCurrentPrice().getValue());

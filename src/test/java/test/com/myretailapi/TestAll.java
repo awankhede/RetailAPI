@@ -10,4 +10,5 @@ import test.com.myretailapi.Handler.TestRetailHandler;
         TestRetailController.class,
         TestRetailHandler.class
 })
-public class TestAll { }
+/* Class to run all JUnits */
+public class TestAll {}

@@ -47,8 +47,8 @@ public class TestRetailHandler {
 
     }
 
-    /* Test the get product details functionality is correctly setup in the handler - tests happy path */
     @Test
+    /* Test the get product details functionality is correctly setup in the handler - tests happy path */
     public void TestGetProductDetails_Success() throws Exception {
         LOGGER.info("Test RetailHandler.getProductDetails - Happy Path");
         when(retailService.getProductDetails(isA(String.class))).thenReturn(mockRetailVO);
@@ -56,8 +56,8 @@ public class TestRetailHandler {
         Assert.assertEquals(returnResponse,expectedResponse);
     }
 
-    /* Test the get product details functionality is correctly setup in the controller - tests bad request */
     @Test
+    /* Test the get product details functionality is correctly setup in the controller - tests bad request */
     public void TestGetProductDetails_BadRequest() throws Exception {
         LOGGER.info("Test RetailHandler.getProductDetails - Happy Path");
         when(retailService.getProductDetails(isA(String.class))).thenReturn(mockRetailVO);
@@ -66,16 +66,16 @@ public class TestRetailHandler {
         Assert.assertEquals(returnResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 
-    /* Test the get product details functionality is correctly setup in the controller - tests not found object */
     @Test
+    /* Test the get product details functionality is correctly setup in the controller - tests not found object */
     public void TestGetProductDetails_NotFound() throws Exception {
         when(retailService.getProductDetails(isA(String.class))).thenReturn(null);
         ResponseEntity<RetailVO> returnResponse = retailHandler.getProductDetails(id);
         Assert.assertEquals(returnResponse.getStatusCode(), HttpStatus.NOT_FOUND);
     }
 
-    /* Test the update product details functionality is correctly setup in the handler - tests happy path */
     @Test
+    /* Test the update product details functionality is correctly setup in the handler - tests happy path */
     public void TestUpdateProductDetails_Success() throws Exception {
         LOGGER.info("Test RetailHandler.getProductDetails - Happy Path");
         when(retailService.updateProductDetails(isA(RetailVO.class))).thenReturn(true);
@@ -83,8 +83,8 @@ public class TestRetailHandler {
         Assert.assertEquals(HttpStatus.OK, returnResponse.getStatusCode());
     }
 
-    /* Test the update product details functionality is correctly setup in the handler - tests exception from service */
     @Test
+    /* Test the update product details functionality is correctly setup in the handler - tests exception from service */
     public void TestUpdateProductDetails_NullResponseFromService() {
         LOGGER.info("Test RetailHandler.getProductDetails - Happy Path");
         try {
@@ -95,8 +95,8 @@ public class TestRetailHandler {
         }
     }
 
-    /* Test the update product details functionality is correctly setup in the handler - tests when Id in parameter and Id in object differ */
     @Test
+    /* Test the update product details functionality is correctly setup in the handler - tests when Id in parameter and Id in object differ */
     public void TestUpdateProductDetails_BadRequest_IdNoMatch() throws Exception {
         LOGGER.info("Test RetailHandler.getProductDetails - Happy Path");
         mockRetailVO.setId("12356789");
@@ -104,8 +104,8 @@ public class TestRetailHandler {
         Assert.assertEquals(HttpStatus.BAD_REQUEST, returnResponse.getStatusCode());
     }
 
-    /* Test the update product details functionality is correctly setup in the handler - tests incorrect id type */
     @Test
+    /* Test the update product details functionality is correctly setup in the handler - tests incorrect id type */
     public void TestUpdateProductDetails_BadRequest() throws Exception {
         LOGGER.info("Test RetailHandler.getProductDetails - Happy Path");
         id  = 123;
@@ -113,8 +113,8 @@ public class TestRetailHandler {
         Assert.assertEquals(HttpStatus.BAD_REQUEST, returnResponse.getStatusCode());
     }
 
-    /* Test the update product details functionality is correctly setup in the handler - tests empty price info */
     @Test
+    /* Test the update product details functionality is correctly setup in the handler - tests empty price info */
     public void TestUpdateProductDetails_EmptyCurrencyInfo() {
         LOGGER.info("Test RetailHandler.getProductDetails - Happy Path");
         mockRetailVO.setCurrentPrice(null);

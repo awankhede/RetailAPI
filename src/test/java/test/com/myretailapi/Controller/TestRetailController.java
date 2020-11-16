@@ -30,7 +30,6 @@ public class TestRetailController {
     private final static Logger LOGGER = Logger.getLogger(TestRetailController.class.getName());
 
     Integer testID = 12345678;
-    RetailVO mockRetailVO = new RetailVO();
     RetailVO newMockRetailVO = new RetailVO();
     CurrentPrice mockPriceSetup = new CurrentPrice();
     ResponseEntity<RetailVO> returnEntity;
@@ -48,6 +47,7 @@ public class TestRetailController {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = MockMvcBuilders.standaloneSetup(retailController).build();
 
+        RetailVO mockRetailVO = new RetailVO();
         mockRetailVO.setId(testID.toString());
         mockRetailVO.setName("Test Product");
         mockPriceSetup.setCurrencyCode("USD");
@@ -75,8 +75,8 @@ public class TestRetailController {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)) ;
     }
 
-    /* Test the get product details functionality is incorrectly called */
     @Test
+    /* Test the get product details functionality is incorrectly called */
     public void testGetProductDetails_BadRequest() throws Exception {
         LOGGER.info("Test UpdateProductDetails - Success");
 
@@ -87,8 +87,8 @@ public class TestRetailController {
                 .andExpect(status().isBadRequest());
     }
 
-    /* Test the get product details functionality is correctly setup in the controller - tests happy path */
     @Test
+    /* Test the get product details functionality is correctly setup in the controller - tests happy path */
     public void testUpdateProductDetails_Success() throws Exception {
         LOGGER.info("Test UpdateProductDetails - Success");
 
@@ -108,8 +108,8 @@ public class TestRetailController {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    /* Test the update product details functionality is incorrectly called */
     @Test
+    /* Test the update product details functionality is incorrectly called */
     public void testUpdateProductDetails_BadRequest() throws Exception {
         LOGGER.info("Test UpdateProductDetails - Success");
 
@@ -117,6 +117,6 @@ public class TestRetailController {
         when(retailHandler.updateProductDetails(isA(Integer.class),isA(RetailVO.class))).thenReturn(returnEntity);
 
         mockMvc.perform(put("/products/12345678"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnsupportedMediaType());
     }
 }
