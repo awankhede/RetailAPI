@@ -1,0 +1,6 @@
+use myretailDB
+db.currentprice.insertMany([
+{ "_id" : "13860428", "value" : "13.49", "currencyCode" : "USD" },
+{ "_id" : "54456119","value" : "4.39", "currencyCode" : "USD" },
+{ "_id" : "13264003","value" : "5.99", "currencyCode" : "USD" },
+{ "_id" : "12954218","value" : "0.99", "currencyCode" : "USD" }])

@@ -39,7 +39,9 @@ public class RetailController {
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<RetailVO> updateProductDetails(@PathVariable Integer id, @RequestBody RetailVO retailVO) throws Exception{
         LOGGER.info("Enter RetailController.updateProductDetails");
-        ResponseEntity<RetailVO> returnResponse = retailHandler.getProductDetails(id);
+        LOGGER.info(retailVO.getCurrentPrice().getValue());
+        LOGGER.info(id.toString());
+        ResponseEntity<RetailVO> returnResponse = retailHandler.updateProductDetails(id,retailVO);
         LOGGER.info("Exit RetailController.updateProductDetails");
         return returnResponse;
     }

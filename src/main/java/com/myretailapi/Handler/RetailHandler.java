@@ -22,12 +22,13 @@ public class RetailHandler {
         LOGGER.info("Enter RetailHandler.getProductDetails");
         RetailVO returnObject;
         ResponseEntity<RetailVO> returnEntity;
+        String idString = id.toString();
 
-        if(!id.toString().matches(ID_REGEX)){
+        if(!idString.matches(ID_REGEX) || !(idString.length() == 8)){
             LOGGER.info("Error... Exit RetailHandler.getProductDetails");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }else{
-            returnObject = retailService.getProductDetails(id);
+            returnObject = retailService.getProductDetails(idString);
         }
 
         if(returnObject != null) {
@@ -41,21 +42,23 @@ public class RetailHandler {
         return returnEntity;
     }
 
-    public ResponseEntity<RetailVO> updateProductDetails(Integer id, RetailVO retailVO) throws Exception{
+    public ResponseEntity<RetailVO> updateProductDetails(Integer id, RetailVO retailVO) throws Exception {
         LOGGER.info("Enter RetailHandler.updateProductDetails");
         RetailVO returnObject;
+        String idString = id.toString();
         ResponseEntity<RetailVO> returnEntity;
 
-        if(!id.toString().matches(ID_REGEX)){
+        if (!idString.equals(retailVO.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else{
-            returnObject = retailService.updateProductDetails(retailVO);
+        } else if (!idString.matches(ID_REGEX) || !(idString.length() == 8)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else if (retailVO.getCurrentPrice() == null || retailVO.getCurrentPrice().getCurrencyCode()==null||retailVO.getCurrentPrice().getValue()==null){
+            throw new Exception(" Please check product price and currency code details, it should not be empty ");
         }
 
-        if(returnObject != null) {
-            returnEntity = ResponseEntity.ok(returnObject);
+        if(retailService.updateProductDetails(retailVO)) {
+            returnEntity = ResponseEntity.ok(retailVO);
         }else{
-            LOGGER.info("Error... Exit RetailHandler.getProductDetails");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

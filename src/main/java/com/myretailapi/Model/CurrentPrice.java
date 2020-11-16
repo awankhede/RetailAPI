@@ -1,10 +1,18 @@
 package com.myretailapi.Model;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CurrentPrice {
+@Document(collection = "currentprice")
+public class CurrentPrice implements Serializable {
+
+    @Id
+    @JsonIgnore
+    private String id;
 
     @JsonProperty("value")
     private String value = "";
@@ -19,6 +27,14 @@ public class CurrentPrice {
         CurrentPrice that = (CurrentPrice) o;
         return Objects.equals(value, that.value) &&
                 Objects.equals(currencyCode, that.currencyCode);
+    }
+
+    @Override
+    public String toString() {
+        return "CurrentPrice{" +
+                "value='" + value + '\'' +
+                ", currencyCode='" + currencyCode + '\'' +
+                '}';
     }
 
     @Override
@@ -42,5 +58,11 @@ public class CurrentPrice {
         this.currencyCode = currencyCode;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }

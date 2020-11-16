@@ -1,7 +1,8 @@
 package com.myretailapi.Dao;
 
-public interface RetailDao{//} extends MongoRepository<RetailVO,Integer> {
+import com.myretailapi.Model.CurrentPrice;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-   // public RetailVO findbyID(int id);
-
+public interface RetailDao extends MongoRepository<CurrentPrice,Integer> {
+    CurrentPrice findById(String id);
 }
