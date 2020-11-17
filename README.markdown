@@ -105,7 +105,7 @@ STEP 5:
 Run the Application by launching the 'ApplicationAPI.java' class. This should output startup logs in the console that ends with the following message and no error traces: 
 
 ```Bash
-com.myretailapi.ApplicationAPI           : Started ApplicationAPI in {X} seconds (JVM running for 9.788)
+com.myretailapi.ApplicationAPI           : Started ApplicationAPI in {X} seconds (JVM running for {X})
 ```
 
 STEP 6: 
