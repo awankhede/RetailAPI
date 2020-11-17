@@ -112,23 +112,24 @@ STEP 6:
 
 Connect to the RestService via Postman and perform rest commands to connect to the running API service.
     
-    1. Perform ping call to make sure service is hosted correctly. 
-       Set the request type to be 'GET'
-    
+1. Perform ping call to make sure service is hosted correctly. 
+   Set the request type to be 'GET'
+```Bash
         http://localhost:8080/products/ping
-    
-    2. Perform the call to get product details based on the product id. 
-       Set the request type to be 'GET' and define a header 'Accept' to be 'application/json'. 
-       Concat the product id to the end of the URI to be sent in as a path variable. 
-    
+```
+2. Perform the call to get product details based on the product id. 
+   Set the request type to be 'GET' and define a header 'Accept' to be 'application/json'. 
+   Concat the product id to the end of the URI to be sent in as a path variable. 
+```Bash
         http://localhost:8080/products/{id}
-    
-    3. Perform the call to update product details based on the product id. 
-       Set the request type to be 'PUT', define a header 'Accept' to be 'application/json', and define 'Content-Type' to be 'application/json'. 
-       Concat the product id to the end of the URI to be sent in as a path variable.
-       Send in the new product details to be updated in a JSON request body.
-         - Select the option to send in raw data and send in the body in the below format and then run the provided URI:
+```   
+3. Perform the call to update product details based on the product id. 
+   Set the request type to be 'PUT', define a header 'Accept' to be 'application/json', and define 'Content-Type' to be 'application/json'. 
+   Concat the product id to the end of the URI to be sent in as a path variable.
+   Send in the new product details to be updated in a JSON request body.
+   Select the option to send in raw data and send in the body in the below format and then run the provided URI:
 
+```Bash
         {"id": "13860428",
            "name": "The Big Lebowski (Blu-ray)",
            "current_price": {
@@ -138,3 +139,4 @@ Connect to the RestService via Postman and perform rest commands to connect to t
         }
        
        http://localhost:8080/products/{id}
+```
