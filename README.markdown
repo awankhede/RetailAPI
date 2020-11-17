@@ -50,7 +50,7 @@ brew install maven
 
 MONGO DB
 
-Make sure that you have Maven installed as this tool will allow you the ability to work with the noSQL database defined in mongo.
+Make sure that you have MongoDB installed as this tool will allow you the ability to work with the noSQL database defined in mongo.
 
 Direct Install: Follow this [link](https://www.mongodb.com/try/download/community)
 
@@ -105,7 +105,7 @@ STEP 5:
 Run the Application by launching the 'ApplicationAPI.java' class. This should output startup logs in the console that ends with the following message and no error traces: 
 
 ```Bash
-com.myretailapi.ApplicationAPI           : Started ApplicationAPI in 6.666 seconds (JVM running for 9.788)
+com.myretailapi.ApplicationAPI           : Started ApplicationAPI in {X} seconds (JVM running for 9.788)
 ```
 
 STEP 6: 
